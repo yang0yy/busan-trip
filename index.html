@@ -395,7 +395,7 @@ footer{text-align:center;font-size:13px;color:var(--ink-soft);padding:10px 0 30p
 /* 兩組人：g1 第一組、g2 第二組 */
 const GROUPS = {
   g1:{ name:"第一組", start:"2026-11-05T17:30:00+08:00", end:"2026-11-10T16:30:00+08:00", startNote:"11/5 17:30 桃園起飛" },
-  g2:{ name:"第二組", start:"2026-11-06T00:00:00+08:00", end:"2026-11-10T20:50:00+09:00", startNote:"11/6 出發，起飛時間待填" }
+  g2:{ name:"第二組", start:"2026-11-06T16:50:00+08:00", end:"2026-11-10T22:30:00+08:00", startNote:"11/6 16:50 桃園起飛" }
 };
 
 const FLIGHTS = [
@@ -405,12 +405,12 @@ const FLIGHTS = [
   { g:"g1", kind:"回程", cls:"back", date:"11/10（二）", no:"大韓航空 KE2085",
     from:{t:"14:50", c:"釜山 金海"}, to:{t:"16:30", c:"桃園 TPE"},
     foot:"12:00 從市區出發去機場，12:50 前到機場報到" },
-  { g:"g2", kind:"去程", cls:"go", date:"11/6（五）", no:"航班編號待填",
-    from:{t:"—", c:"出發地待填"}, to:{t:"20:00", c:"釜山 金海"},
-    foot:"21:00 出機場，22:00 前到西面住宿" },
-  { g:"g2", kind:"回程", cls:"back", date:"11/10（二）", no:"航班編號待填",
-    from:{t:"20:50", c:"釜山 金海"}, to:{t:"—", c:"抵達時間待填"},
-    foot:"18:00 出發去機場" }
+  { g:"g2", kind:"去程", cls:"go", date:"11/6（五）", no:"台灣虎航 IT606",
+    from:{t:"16:50", c:"桃園 TPE"}, to:{t:"20:00", c:"釜山 金海"},
+    foot:"建議 14:50 前到桃園機場報到；21:00 出機場，22:00 前到西面住宿" },
+  { g:"g2", kind:"回程", cls:"back", date:"11/10（二）", no:"台灣虎航 IT607",
+    from:{t:"20:50", c:"釜山 金海"}, to:{t:"22:30", c:"桃園 TPE"},
+    foot:"18:00 從市區出發去機場，18:50 前到機場報到" }
 ];
 
 /* 交通標籤：plane 飛機｜metro 地鐵｜train 列車｜taxi 計程車｜walk 步行｜deliver 外送 */
@@ -440,6 +440,8 @@ const DAYS = [
       { g:"g1", t:"17:00", h:"搭地鐵回西面", q:"서면역", tags:["metro"] },
       { g:"g1", t:"17:30", h:"田浦洞 684-2", q:"https://naver.me/GsB7AoY1", p:"從西面走過去約 10 分鐘；離住宿近，買的東西不用提太久", tags:["walk"] },
       { g:"g1", t:"18:30", h:"西面晚餐", opts:[["文化烤腸","","문화양곱창"],["味贊王鹽烤肉","","맛찬들왕소금구이 서면점"]], p:"烤肉的男人、濟州間留給大家一起吃", tags:["walk"] },
+      { g:"g2", t:"14:50", h:"桃園機場報到", tags:["plane"] },
+      { g:"g2", t:"16:50", h:"IT606 桃園起飛", tags:["plane"] },
       { g:"g2", t:"20:00", h:"抵達釜山金海機場", q:"김해국제공항", tags:["plane"] },
       { g:"g2", t:"21:00", h:"出機場，前往西面", tags:["taxi","metro"] },
       { g:"g2", t:"22:00 前", h:"入住西面住宿", p:"兩組在西面會合", tags:["walk"] },
@@ -503,7 +505,8 @@ const DAYS = [
       { g:"g2", t:"下午", h:"白淺灘咖啡廳（西面）", tags:["walk"] },
       { g:"g1", t:"16:30", h:"抵達桃園", tags:["plane"] },
       { g:"g2", t:"18:00", h:"第二組出發去機場", q:"김해국제공항", must:true, tags:["taxi","metro"] },
-      { g:"g2", t:"20:50", h:"釜山起飛，回台灣", tags:["plane"] }
+      { g:"g2", t:"20:50", h:"IT607 釜山起飛", tags:["plane"] },
+      { g:"g2", t:"22:30", h:"抵達桃園", tags:["plane"] }
     ]}
 ];
 
@@ -523,7 +526,7 @@ const TODOS = [
 ];
 
 const STAYS = [
-  { area:"西面", name:"住宿名稱待填", dates:"11/5 – 11/8", nights:["11/5（第一組）","11/6","11/7"], color:"#F2A497",
+  { area:"西面", name:"Seomyeon Denbasta 中央酒店", addr:"釜山廣域市 釜山鎮區 釜田洞 524-17", q:"https://naver.me/FaeGpq0t", dates:"11/5 – 11/8", nights:["11/5（第一組）","11/6","11/7"], color:"#F2A497",
     note:"第一組 11/5 約 22:30 入住，第二組 11/6 22:00 前入住；11/8 11:00 退房" },
   { area:"廣安", name:"住宿名稱待填", dates:"11/8 – 11/10", nights:["11/8","11/9"], color:"#A8D3E6",
     note:"11/8 15:00 可 check-in；11/10 退房，第一組 12:00 前出發去機場" }
@@ -656,8 +659,10 @@ updateProg();
 $("#stays").innerHTML = STAYS.map(s=>`
   <article class="stay box">${ICONS.house(s.color)}
     <div><h3>${esc(s.area)}</h3><p>${esc(s.name)}・${s.dates}</p>
+    ${s.addr?`<p>${esc(s.addr)}</p>`:""}
     <div class="nights">${s.nights.map(n=>`<span class="chip">${n} 晚</span>`).join("")}</div>
-    <p>${esc(s.note)}</p></div>
+    <p>${esc(s.note)}</p>
+    ${s.q?`<a class="maplink" href="${NAVER(s.q)}" target="_blank" rel="noopener">${PIN}Naver 地圖</a>`:""}</div>
   </article>`).join("");
 
 /* 倒數 */
