@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>釜山小旅行 11/6–11/10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFCF6; --ink:#3E3A39; --ink-soft:#7a7472;
+  --coral:#F2A497; --yellow:#F6D27A; --aqua:#A8D3E6; --green:#B9DAA5;
+  --line:3px solid var(--ink);
+  --r-lg:28px; --r-md:20px; --r-sm:12px;
+  --nav-h:58px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px) + 12px)}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Huninn","jf-openhuninn","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:3px dashed var(--ink);outline-offset:3px;border-radius:10px}
+
+/* ---------- 固定選單 ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+.nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+  background:var(--paper);border-bottom:var(--line);
+}
+.nav-inner{
+  max-width:720px;margin:0 auto;height:var(--nav-h);
+  display:flex;align-items:center;gap:6px;padding:0 10px;
+  overflow-x:auto;scrollbar-width:none;
+}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav a{
+  flex:0 0 auto;text-decoration:none;font-size:15px;
+  padding:6px 13px;border:var(--line);border-radius:999px;background:#fff;
+  transition:transform .15s;
+}
+.nav a.on{background:var(--yellow)}
+.nav a:active{transform:translateY(2px)}
+.nav .brand{border:none;background:none;padding:6px 4px;font-size:17px;margin-right:2px}
+
+main{max-width:720px;margin:0 auto;padding:0 16px 40px}
+section{margin-top:34px}
+h2{
+  font-size:22px;font-weight:400;margin:0 0 14px;
+  display:flex;align-items:center;gap:10px;
+}
+h2 .dot{width:18px;height:18px;border:var(--line);border-radius:50%;flex:0 0 auto}
+
+.box{background:#fff;border:var(--line);border-radius:var(--r-lg)}
+
+/* ---------- 首頁 ---------- */
+.hero{margin-top:16px;overflow:hidden;background:var(--paper)}
+.hero svg{display:block;width:100%;height:auto}
+.hero-text{padding:6px 20px 20px;border-top:var(--line);background:#fff}
+.hero h1{font-size:34px;font-weight:400;line-height:1.25;margin:12px 0 2px}
+.hero .sub{margin:0;color:var(--ink-soft);font-size:15px}
+.count{display:flex;gap:8px;margin-top:16px;align-items:stretch}
+.count .cell{
+  flex:1;text-align:center;border:var(--line);border-radius:var(--r-md);padding:8px 4px 6px;
+}
+.count .cell:nth-child(1){background:var(--coral)}
+.count .cell:nth-child(2){background:var(--yellow)}
+.count .cell:nth-child(3){background:var(--aqua)}
+.count b{display:block;font-size:30px;font-weight:400;line-height:1.1;font-variant-numeric:tabular-nums}
+.count small{font-size:13px}
+.count-msg{margin:10px 0 0;font-size:14px;color:var(--ink-soft)}
+
+/* 插圖動畫 */
+@keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(14px)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes wave{from{transform:translateX(0)}to{transform:translateX(-40px)}}
+@keyframes pop{0%,100%{transform:scale(.82);opacity:.75}50%{transform:scale(1);opacity:1}}
+@keyframes ride{0%,8%{transform:translateX(0)}46%,54%{transform:translateX(118px)}92%,100%{transform:translateX(0)}}
+@keyframes flap{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.55)}}
+.a-drift{animation:drift 7s ease-in-out infinite alternate}
+.a-drift.slow{animation-duration:10s}
+.a-bob{animation:bob 3.2s ease-in-out infinite}
+.a-wave{animation:wave 4s linear infinite}
+.a-wave.b{animation-duration:6s;animation-direction:reverse}
+.a-pop{transform-box:fill-box;transform-origin:center;animation:pop 2.6s ease-in-out infinite}
+.a-pop.d1{animation-delay:-.9s}.a-pop.d2{animation-delay:-1.7s}
+.a-ride{animation:ride 16s ease-in-out infinite}
+.a-flap{transform-box:fill-box;transform-origin:center;animation:flap .9s ease-in-out infinite}
+
+/* ---------- 航班 ---------- */
+.flights{display:grid;gap:14px}
+.ticket{position:relative;padding:16px 18px;overflow:hidden}
+.ticket::before,.ticket::after{
+  content:"";position:absolute;top:50%;width:24px;height:24px;margin-top:-12px;
+  background:var(--paper);border:var(--line);border-radius:50%;
+}
+.ticket::before{left:-14px}.ticket::after{right:-14px}
+.ticket .head{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}
+.chip{display:inline-block;padding:2px 10px;border:var(--line);border-radius:999px;font-size:13px;line-height:1.5;background:#fff}
+.ticket.go .chip.kind{background:var(--coral)}
+.ticket.back .chip.kind{background:var(--aqua)}
+.route{display:flex;align-items:center;gap:10px;margin:12px 0 4px}
+.route .pt{flex:0 0 auto;min-width:86px}
+.route .pt:last-child{text-align:right}
+.route .t{font-size:28px;line-height:1.1}
+.route .c{font-size:14px;color:var(--ink-soft)}
+.route .mid{flex:1;border-top:3px dashed var(--ink);position:relative;height:0}
+.route .mid svg{position:absolute;left:50%;top:-15px;margin-left:-15px}
+.ticket .foot{font-size:13px;color:var(--ink-soft);border-top:3px dotted #d9d2c8;padding-top:8px;margin-top:10px}
+
+/* ---------- 每日行程 ---------- */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;min-width:68px;border:var(--line);border-radius:var(--r-md);
+  background:#fff;padding:7px 10px 6px;text-align:center;cursor:pointer;
+  box-shadow:0 4px 0 var(--ink);transition:transform .12s,box-shadow .12s;
+}
+.tab b{display:block;font-weight:400;font-size:19px;line-height:1.2}
+.tab small{font-size:12.5px}
+.tab[aria-selected="true"]{transform:translateY(4px);box-shadow:0 0 0 var(--ink)}
+.tab:nth-child(5n+1)[aria-selected="true"]{background:var(--coral)}
+.tab:nth-child(5n+2)[aria-selected="true"]{background:var(--yellow)}
+.tab:nth-child(5n+3)[aria-selected="true"]{background:var(--aqua)}
+.tab:nth-child(5n+4)[aria-selected="true"]{background:var(--green)}
+.tab:nth-child(5n+5)[aria-selected="true"]{background:var(--coral)}
+
+.dayhead{display:flex;align-items:center;gap:14px;padding:14px 16px;margin:6px 0 18px}
+.dayhead svg{flex:0 0 auto}
+.dayhead h3{margin:0;font-weight:400;font-size:21px;line-height:1.3}
+.dayhead p{margin:2px 0 0;font-size:14px;color:var(--ink-soft)}
+
+.plans{display:flex;gap:8px;margin:-6px 0 16px;flex-wrap:wrap}
+.plan{border:var(--line);border-radius:999px;background:#fff;padding:4px 14px;cursor:pointer;font-size:15px}
+.plan[aria-pressed="true"]{background:var(--green)}
+.plan-note{width:100%;font-size:13px;color:var(--ink-soft);margin:2px 2px 0}
+
+.timeline{list-style:none;margin:0;padding:0 0 0 22px;position:relative}
+.timeline::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;border-left:3px dashed var(--ink)}
+.stop{position:relative;margin-bottom:14px}
+.stop::before{
+  content:"";position:absolute;left:-21px;top:16px;width:18px;height:18px;
+  border:var(--line);border-radius:50%;background:var(--paper);
+}
+.stop.must::before{background:var(--coral)}
+.card{padding:12px 14px 12px;border-radius:var(--r-md)}
+.card .top{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.time{font-size:14px;padding:1px 9px;border:var(--line);border-radius:999px;background:var(--paper);white-space:nowrap}
+.card h4{margin:6px 0 0;font-weight:400;font-size:18px;line-height:1.4;width:100%}
+.card p{margin:3px 0 0;font-size:14px;color:var(--ink-soft)}
+.must-stamp{
+  margin-left:auto;font-size:13px;padding:0 8px;border:var(--line);border-radius:8px;
+  background:var(--coral);transform:rotate(-6deg);line-height:1.6;
+}
+.opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.opt{font-size:13.5px;padding:2px 10px;border:2px solid var(--ink);border-radius:999px;background:#fff}
+.opt.ok{background:var(--green)}
+.opt.no{text-decoration:line-through;color:var(--ink-soft)}
+.opt.map{text-decoration:none;display:inline-flex;align-items:center;gap:4px;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.opt.map:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.opt.map.no{text-decoration:line-through}
+.maplink{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:13.5px;text-decoration:none;padding:3px 12px 3px 9px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.maplink:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.tags + .maplink{margin-left:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.tag{font-size:12.5px;padding:1px 9px 1px 7px;border:2px solid var(--ink);border-radius:999px;display:inline-flex;align-items:center;gap:4px}
+.tag i{font-style:normal}
+.tag.plane{background:var(--coral)}
+.tag.metro{background:var(--aqua)}
+.tag.taxi{background:var(--yellow)}
+.tag.walk{background:var(--green)}
+.tag.train{background:var(--aqua)}
+.tag.deliver{background:#fff}
+
+@keyframes boing{
+  0%{transform:translateY(16px) scale(.97);opacity:0}
+  45%{transform:translateY(-8px) scale(1.01);opacity:1}
+  70%{transform:translateY(3px)}
+  100%{transform:translateY(0) scale(1)}
+}
+.boing{animation:boing .55s cubic-bezier(.3,1.4,.5,1) both}
+.boing .stop{animation:boing .55s cubic-bezier(.3,1.4,.5,1) both}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:13px;color:var(--ink-soft);align-items:center}
+
+/* ---------- 待辦 ---------- */
+.todo{padding:8px 14px 14px}
+.progress{display:flex;align-items:center;gap:10px;padding:8px 2px 10px;font-size:14px}
+.bar{flex:1;height:16px;border:var(--line);border-radius:999px;overflow:hidden;background:var(--paper)}
+.bar span{display:block;height:100%;width:0;background:var(--green);border-right:3px solid var(--ink);transition:width .35s cubic-bezier(.3,1.4,.5,1)}
+.todo ul{list-style:none;margin:0;padding:0}
+.todo li+li{border-top:2px dashed #e4ddd2}
+.todo label{display:flex;gap:12px;align-items:flex-start;padding:10px 2px;cursor:pointer}
+.todo input{position:absolute;opacity:0;width:1px;height:1px}
+.check{
+  flex:0 0 auto;width:26px;height:26px;border:var(--line);border-radius:9px;background:#fff;
+  display:grid;place-items:center;margin-top:1px;transition:background .15s,transform .15s;
+}
+.check svg{opacity:0;transform:scale(.4);transition:opacity .15s,transform .25s cubic-bezier(.3,1.6,.5,1)}
+.todo input:checked + .check{background:var(--yellow)}
+.todo input:checked + .check svg{opacity:1;transform:scale(1)}
+.todo input:focus-visible + .check{outline:3px dashed var(--ink);outline-offset:3px}
+.todo .txt small{display:block;font-size:13px;color:var(--ink-soft)}
+.todo input:checked ~ .txt{color:var(--ink-soft);text-decoration:line-through}
+
+/* ---------- 住宿 ---------- */
+.stays{display:grid;gap:14px}
+.gsel{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:14px}
+.gsel-lab{font-size:14px;color:var(--ink-soft);margin-right:2px}
+.gbtn{border:var(--line);border-radius:999px;background:#fff;padding:3px 14px;cursor:pointer;font-size:15px;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.gbtn[aria-pressed="true"]{background:var(--yellow);transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.gbadge{display:inline-flex;align-items:center;gap:5px;font-size:13px;padding:0 9px;border:2px solid var(--ink);border-radius:8px;background:#fff;line-height:1.7}
+.gbadge::before{content:"";width:9px;height:9px;border-radius:50%;border:2px solid var(--ink)}
+.gbadge.g1::before{background:var(--coral)}
+.gbadge.g2::before{background:var(--green)}
+.fgroup+.fgroup{margin-top:18px}
+.fgroup h3{margin:0 0 10px;font-weight:400}
+.fgroup h3 .gbadge{font-size:15px}
+.empty{padding:18px 16px;font-size:15px;text-align:center;border-radius:var(--r-md);color:var(--ink-soft)}
+.stay{display:flex;gap:14px;padding:14px 16px;align-items:center}
+.stay svg{flex:0 0 auto}
+.stay h3{margin:0;font-weight:400;font-size:19px}
+.stay p{margin:2px 0 0;font-size:14px;color:var(--ink-soft)}
+.stay .nights{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.stay .nights .chip{font-size:12.5px}
+
+footer{text-align:center;font-size:13px;color:var(--ink-soft);padding:10px 0 30px}
+
+@media (min-width:640px){
+  .flights,.stays{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:40px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="主選單">
+  <div class="nav-inner">
+    <a class="brand" href="#home">釜山小旅行</a>
+    <a href="#home" data-sec="home">首頁</a>
+    <a href="#flight" data-sec="flight">航班</a>
+    <a href="#days" data-sec="days">行程</a>
+    <a href="#todo" data-sec="todo">待辦</a>
+    <a href="#stay" data-sec="stay">住宿</a>
+  </div>
+</nav>
+
+<main>
+<!-- ===== 首頁 ===== -->
+<section id="home" class="hero box" style="margin-top:16px">
+  <svg viewBox="0 0 360 250" role="img" aria-label="釜山插圖：廣安大橋上的煙火、甘川洞彩色小屋、釜山塔與海雲台天空膠囊列車">
+    <defs>
+      <clipPath id="sea"><rect x="0" y="150" width="360" height="100"/></clipPath>
+    </defs>
+    <!-- 太陽 -->
+    <g class="a-bob"><circle cx="300" cy="44" r="22" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/></g>
+    <!-- 雲 -->
+    <g class="a-drift">
+      <path d="M40 52 q0-14 15-14 q5-10 17-6 q10-4 15 6 q12 0 12 14 z" fill="#fff" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+    </g>
+    <g class="a-drift slow">
+      <path d="M214 76 q0-10 11-10 q4-8 13-5 q8-3 12 5 q9 0 9 10 z" fill="#fff" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+    </g>
+    <!-- 煙火 -->
+    <g class="a-pop" stroke="#3E3A39" stroke-width="3" stroke-linecap="round">
+      <circle cx="150" cy="46" r="6" fill="#F2A497"/>
+      <path d="M150 30v-8M150 62v8M134 46h-8M166 46h8M139 35l-6-6M161 35l6-6M139 57l-6 6M161 57l6 6" fill="none"/>
+    </g>
+    <g class="a-pop d1" stroke="#3E3A39" stroke-width="3" stroke-linecap="round">
+      <circle cx="196" cy="30" r="4.5" fill="#A8D3E6"/>
+      <path d="M196 19v-6M196 41v6M185 30h-6M207 30h6M188 22l-4-4M204 22l4-4M188 38l-4 4M204 38l4 4" fill="none"/>
+    </g>
+    <g class="a-pop d2" stroke="#3E3A39" stroke-width="3" stroke-linecap="round">
+      <circle cx="248" cy="58" r="4" fill="#B9DAA5"/>
+      <path d="M248 48v-5M248 68v5M238 58h-5M258 58h5" fill="none"/>
+    </g>
+    <!-- 海鷗 -->
+    <g class="a-drift slow"><g class="a-flap">
+      <path d="M92 86 q6-7 12 0 q6-7 12 0" fill="none" stroke="#3E3A39" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g></g>
+
+    <!-- 山與甘川洞小屋 -->
+    <path d="M-4 152 Q30 92 74 98 Q112 104 128 152 Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+    <g stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round">
+      <rect x="22" y="128" width="16" height="14" fill="#F2A497"/><path d="M20 128l10-8 10 8z" fill="#A8D3E6"/>
+      <rect x="44" y="120" width="15" height="13" fill="#F6D27A"/><path d="M42 120l9.5-7 9.5 7z" fill="#F2A497"/>
+      <rect x="66" y="126" width="16" height="14" fill="#A8D3E6"/><path d="M64 126l10-8 10 8z" fill="#F6D27A"/>
+      <rect x="88" y="134" width="15" height="12" fill="#fff"/><path d="M86 134l9.5-7 9.5 7z" fill="#B9DAA5"/>
+      <rect x="36" y="140" width="14" height="10" fill="#fff"/>
+    </g>
+    <!-- 釜山塔 -->
+    <g stroke="#3E3A39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M62 112 L64 70 L68 70 L70 112" fill="#fff"/>
+      <rect x="57" y="62" width="18" height="10" rx="4" fill="#F2A497"/>
+      <path d="M66 62v-12"/>
+    </g>
+
+    <!-- 廣安大橋 -->
+    <g stroke="#3E3A39" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M120 150 H360"/>
+      <path d="M188 150 V96 M200 150 V96 M278 150 V96 M290 150 V96"/>
+      <path d="M186 96 H202 M276 96 H292"/>
+      <path d="M124 150 Q160 128 194 98 Q239 140 284 98 Q318 130 360 140"/>
+      <path d="M150 150v-12 M170 150v-26 M215 150v-28 M239 150v-16 M263 150v-28 M310 150v-22 M334 150v-14" stroke-width="2"/>
+    </g>
+    <path d="M120 150 H360 V156 H120 Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+
+    <!-- 海 -->
+    <rect x="0" y="152" width="360" height="98" fill="#A8D3E6"/>
+    <g clip-path="url(#sea)" fill="none" stroke="#3E3A39" stroke-width="3" stroke-linecap="round">
+      <path class="a-wave" d="M0 178 q10-7 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0"/>
+      <path class="a-wave b" d="M-40 198 q10-6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" stroke-width="2.5"/>
+    </g>
+    <line x1="0" y1="152" x2="120" y2="152" stroke="#3E3A39" stroke-width="3"/>
+
+    <!-- 海岸與天空膠囊列車 -->
+    <path d="M-4 250 L-4 214 Q90 204 180 214 T364 212 L364 250 Z" fill="#FFFCF6" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M10 220 H300" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+    <path d="M30 220v12 M90 220v12 M150 220v12 M210 220v12 M270 220v12" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+    <g class="a-ride">
+      <g class="a-bob">
+        <g stroke="#3E3A39" stroke-width="3" stroke-linejoin="round">
+          <rect x="28" y="196" width="24" height="22" rx="9" fill="#F2A497"/>
+          <rect x="56" y="196" width="24" height="22" rx="9" fill="#F6D27A"/>
+          <rect x="84" y="196" width="24" height="22" rx="9" fill="#B9DAA5"/>
+        </g>
+        <g fill="#fff" stroke="#3E3A39" stroke-width="2"><rect x="33" y="201" width="14" height="8" rx="3"/><rect x="61" y="201" width="14" height="8" rx="3"/><rect x="89" y="201" width="14" height="8" rx="3"/></g>
+      </g>
+    </g>
+  </svg>
+  <div class="hero-text">
+    <h1>釜山小旅行</h1>
+    <p class="sub">2026 年 11 月 5 日（四）— 11 月 10 日（二）<br>第一組 11/5–11/10・第二組 11/6–11/10</p>
+    <div class="gsel" role="group" aria-label="選擇組別"></div>
+    <div class="count" aria-live="polite">
+      <div class="cell"><b id="cd-d">0</b><small>天</small></div>
+      <div class="cell"><b id="cd-h">0</b><small>小時</small></div>
+      <div class="cell"><b id="cd-m">0</b><small>分鐘</small></div>
+    </div>
+    <p class="count-msg" id="cd-msg">距離出發還有</p>
+  </div>
+</section>
+
+<!-- ===== 航班 ===== -->
+<section id="flight">
+  <h2><span class="dot" style="background:var(--coral)"></span>航班</h2>
+  <div id="flights"></div>
+</section>
+
+<!-- ===== 每日行程 ===== -->
+<section id="days">
+  <h2><span class="dot" style="background:var(--yellow)"></span>每日行程</h2>
+  <div class="gsel" role="group" aria-label="選擇組別" style="margin-bottom:10px"></div>
+  <div class="tabs" role="tablist" aria-label="選擇日期" id="tabs"></div>
+  <div id="daypanel" role="tabpanel"></div>
+  <div class="legend">
+    交通：<span class="tag plane">✈ 飛機</span><span class="tag metro">🚇 地鐵</span><span class="tag train">🚃 列車</span><span class="tag taxi">🚕 計程車</span><span class="tag walk">👟 步行</span>
+  </div>
+  <p class="legend">有地標圖示的店名和「Naver 地圖」按鈕，點了會開 Naver 地圖。</p>
+</section>
+
+<!-- ===== 待辦 ===== -->
+<section id="todo">
+  <h2><span class="dot" style="background:var(--aqua)"></span>出發前待辦</h2>
+  <div class="todo box">
+    <div class="progress"><div class="bar"><span id="bar"></span></div><span id="prog">0 / 0</span></div>
+    <ul id="todolist"></ul>
+  </div>
+</section>
+
+<!-- ===== 住宿 ===== -->
+<section id="stay">
+  <h2><span class="dot" style="background:var(--green)"></span>住宿</h2>
+  <div class="stays" id="stays"></div>
+</section>
+</main>
+
+<footer>祝旅途愉快，一路順風</footer>
+
+<script>
+/* ====== 行程資料：要修改內容改這裡就好 ====== */
+/* 兩組人：g1 第一組、g2 第二組 */
+const GROUPS = {
+  g1:{ name:"第一組", start:"2026-11-05T17:30:00+08:00", end:"2026-11-10T16:30:00+08:00", startNote:"11/5 17:30 桃園起飛" },
+  g2:{ name:"第二組", start:"2026-11-06T00:00:00+08:00", end:"2026-11-10T20:50:00+09:00", startNote:"11/6 出發，起飛時間待填" }
+};
+
+const FLIGHTS = [
+  { g:"g1", kind:"去程", cls:"go", date:"11/5（四）", no:"大韓航空 KE2086",
+    from:{t:"17:30", c:"桃園 TPE"}, to:{t:"20:45", c:"釜山 金海"},
+    foot:"建議 15:30 前到桃園機場報到；時間皆為當地時間（韓國快 1 小時）" },
+  { g:"g1", kind:"回程", cls:"back", date:"11/10（二）", no:"大韓航空 KE2085",
+    from:{t:"14:50", c:"釜山 金海"}, to:{t:"16:30", c:"桃園 TPE"},
+    foot:"12:00 從市區出發去機場，12:50 前到機場報到" },
+  { g:"g2", kind:"去程", cls:"go", date:"11/6（五）", no:"航班編號待填",
+    from:{t:"—", c:"出發地待填"}, to:{t:"20:00", c:"釜山 金海"},
+    foot:"21:00 出機場，22:00 前到西面住宿" },
+  { g:"g2", kind:"回程", cls:"back", date:"11/10（二）", no:"航班編號待填",
+    from:{t:"20:50", c:"釜山 金海"}, to:{t:"—", c:"抵達時間待填"},
+    foot:"18:00 出發去機場" }
+];
+
+/* 交通標籤：plane 飛機｜metro 地鐵｜train 列車｜taxi 計程車｜walk 步行｜deliver 外送 */
+const TAGS = { plane:"✈ 飛機", metro:"🚇 地鐵", train:"🚃 列車", taxi:"🚕 計程車", walk:"👟 步行", deliver:"🛵 外送" };
+
+/* 地圖連結：q = Naver Map 搜尋關鍵字（韓文最準）；也可以把 q 換成自己存的 naver.me 網址 */
+const NAVER = (q)=> /^https?:\/\//.test(q) ? q : "https://map.naver.com/p/search/" + encodeURIComponent(q);
+
+const DAYS = [
+  { d:"11/5", w:"四", title:"第一組先抵達", area:"桃園 → 西面", icon:"plane", only:"g1",
+    stops:[
+      { g:"g1", t:"15:30", h:"桃園機場報到", tags:["plane"] },
+      { g:"g1", t:"17:30", h:"KE2086 桃園起飛", tags:["plane"] },
+      { g:"g1", t:"20:45", h:"抵達釜山金海機場", q:"김해국제공항", p:"入境、領行李，可以先買 T-money 卡", tags:["plane"] },
+      { g:"g1", t:"21:30", h:"出機場，前往西面", tags:["taxi","metro"] },
+      { g:"g1", t:"22:30", h:"入住西面住宿，宵夜", p:"可以先吃 11/6 宵夜清單裡的其他間", tags:["walk"] }
+    ]},
+  { d:"11/6", w:"五", title:"第二組抵達・會合", area:"西面", icon:"plane",
+    stops:[
+      { g:"g1", t:"10:00", h:"田浦咖啡街早午餐", q:"전포카페거리", p:"舊五金街改建的咖啡街，從西面走過去就到", tags:["walk"] },
+      { g:"g1", t:"11:00", h:"田浦洞逛選物店", q:"전포동", p:"小眾設計師品牌、古著和選物店多藏在巷弄或二樓",
+        opts:[["object 西面店","","오브젝트 서면점"]], tags:["walk"] },
+      { g:"g1", t:"13:00", h:"午餐：豬肉湯飯", opts:[["松亭3代豬肉湯飯","","송정3대국밥 서면"]], p:"24 小時營業", tags:["walk"] },
+      { g:"g1", t:"14:00", h:"Musinsa Standard 西面店", q:"무신사 스탠다드 서면", p:"韓系簡約基本款，衣服必逛", must:true, tags:["walk"] },
+      { g:"g1", t:"15:30", h:"西面地下街", q:"서면지하상가", p:"平價衣服、鞋子、帽子、飾品，款式換得很快", must:true, tags:["metro","walk"] },
+      { g:"g1", t:"17:00", h:"樂天百貨釜山本店", q:"롯데백화점 부산본점", p:"逛不夠再來；走累了可以先回住宿放戰利品", tags:["walk"] },
+      { g:"g1", t:"18:30", h:"西面晚餐", opts:[["文化烤腸","","문화양곱창"],["味贊王鹽烤肉","","맛찬들왕소금구이 서면점"]], p:"烤肉的男人、濟州間留給大家一起吃", tags:["walk"] },
+      { g:"g2", t:"20:00", h:"抵達釜山金海機場", q:"김해국제공항", tags:["plane"] },
+      { g:"g2", t:"21:00", h:"出機場，前往西面", tags:["taxi","metro"] },
+      { g:"g2", t:"22:00 前", h:"入住西面住宿", p:"兩組在西面會合", tags:["walk"] },
+      { t:"宵夜", h:"西面宵夜", p:"四選一",
+        opts:[["濟州間","","제주간 서면"],["烤肉的男人","","고기굽는남자 서면"],["外送：Puradak 炸雞","ok","푸라닭 서면"],["擄奇年糕（？）","ok"],["24 小時排骨店","ok"]], tags:["walk","deliver"] }
+    ]},
+  { d:"11/7", w:"六", title:"煙火日", area:"西面・廣安里", icon:"fire",
+    stops:[
+      { t:"10:00–10:30", h:"出門吃早餐", opts:[["Egg Drop","","에그드랍 서면"],["All Sunday 貝果","","올썬데이 베이글"],["Shake Shack","","쉐이크쉑 서면"]], tags:["walk"] },
+      { t:"上午", h:"附近逛逛小店", tags:["walk"] },
+      { t:"午餐", h:"李在模 Pizza", q:"이재모피자", p:"餓的話再吃（奶油核桃糕點？）", tags:["walk"] },
+      { t:"13:30–14:00", h:"搭地鐵去廣安", q:"광안역", p:"3 號出口", tags:["metro"] },
+      { t:"15:00", h:"煙火節官方開始領票", must:true, tags:["walk"] },
+      { t:"17:00 前", h:"入座", p:"筆記另寫 18:00；入座後可以再進出", must:true },
+      { t:"18:00–19:00", h:"開幕活動" },
+      { t:"19:00–20:05", h:"釜山煙火節", q:"광안리해수욕장", p:"廣安大橋前看煙火", must:true },
+      { t:"晚餐", h:"廣安晚餐", opts:[["烤肉的男人","ok","고기굽는남자 광안리"],["韓牛","no"],["Gojip","ok","고집 광안리"],["Millac The Market（Bar）","","밀락더마켓"]],
+        p:"廣安沒位的話，回西面吃第一天沒吃到的烤肉或豬肉湯飯", tags:["walk"] },
+      { t:"22:00", h:"西面濟州間（暫預約 4 人）", q:"제주간 서면", p:"待確認", tags:["metro","taxi"] }
+    ]},
+  { d:"11/8", w:"日", title:"換住宿到廣安", area:"西面 → 廣安・南浦", icon:"fish",
+    plans:{
+      A:{ note:"先寄放行李，15:00 再 check-in", stops:[
+        { t:"11:00", h:"退房，先暫放行李", tags:["walk"] },
+        { t:"中午", h:"再逛一下周圍、吃午餐", tags:["walk"] },
+        { t:"15:00", h:"到廣安 check-in 放行李", tags:["metro"] },
+        { t:"下午", h:"海邊拍照、逛逛街", q:"광안리해수욕장", tags:["walk"] },
+        { t:"晚餐", h:"札嘎其市場吃海鮮", q:"자갈치시장", must:true, tags:["metro"] },
+        { t:"晚上", h:"BIFF 廣場逛逛", q:"BIFF광장", tags:["walk"] }
+      ]},
+      B:{ note:"直接提早 check-in，下午去白淺灘", stops:[
+        { t:"11:00", h:"退房 → 提早 check-in 放行李", tags:["metro"] },
+        { t:"午餐", h:"午餐", opts:[["熟成道","","숙성도 부산"],["炸豬排"],["海鮮拉麵"],["Working Holiday","","워킹홀리데이 부산"]], tags:["walk"] },
+        { t:"下午", h:"白淺灘拍照、咖啡廳", q:"흰여울문화마을", p:"也可以留到 11/10 當備案", must:true, tags:["taxi"] },
+        { t:"晚餐", h:"札嘎其市場吃海鮮", q:"자갈치시장", must:true, tags:["metro"] },
+        { t:"晚上", h:"BIFF 廣場", q:"BIFF광장", tags:["walk"] }
+      ]},
+      C:{ note:"廣安里一路吃到札嘎其", stops:[
+        { t:"①", h:"Working Holiday", q:"워킹홀리데이 부산", tags:["walk"] },
+        { t:"②", h:"逛廣安里", q:"광안리해수욕장", tags:["walk"] },
+        { t:"③", h:"熟成道", q:"숙성도 부산", tags:["walk"] },
+        { t:"④", h:"札嘎其市場", q:"자갈치시장", must:true, tags:["metro"] }
+      ]}
+    }},
+  { d:"11/9", w:"一", title:"海雲台・滑車・膠囊列車", area:"機張・海雲台", icon:"capsule",
+    stops:[
+      { t:"早餐", h:"簡單吃", opts:[["超商"],["明太子麵包"],["蒜頭麵包"]] },
+      { t:"10:00", h:"Skyline Luge 滑車", q:"스카이라인루지 부산", p:"10:00 開門", must:true, tags:["taxi"] },
+      { t:"12:00", h:"滑完，前往尾浦", tags:["taxi"] },
+      { t:"13:00–13:30", h:"天空膠囊列車", q:"해운대블루라인파크 미포정거장", p:"尾浦排隊搭乘", must:true, tags:["train"] },
+      { t:"下午", h:"青沙浦咖啡廳＋買伴手禮", q:"청사포", tags:["walk"] },
+      { t:"傍晚", h:"回尾浦／海雲台", p:"Miffy！", tags:["train","walk"] },
+      { t:"晚餐", h:"湯飯", opts:[["水邊豬肉湯飯","","수변최고돼지국밥"],["牛肉湯飯"]], tags:["walk"] }
+    ]},
+  { d:"11/10", w:"二", title:"自由日・回家", area:"西面・金海機場", icon:"bag",
+    stops:[
+      { t:"上午", h:"退房，去前幾天想逛沒逛完的地方", tags:["metro","walk"] },
+      { g:"g1", t:"12:00", h:"第一組出發去機場", q:"김해국제공항", p:"12:50 前到機場報到", must:true, tags:["taxi","metro"] },
+      { g:"g2", t:"午餐", h:"午餐", opts:[["炸豬排"],["Working Holiday","","워킹홀리데이 부산"]], tags:["walk"] },
+      { g:"g1", t:"14:50", h:"KE2085 釜山起飛", tags:["plane"] },
+      { g:"g2", t:"下午", h:"白淺灘咖啡廳（西面）", tags:["walk"] },
+      { g:"g1", t:"16:30", h:"抵達桃園", tags:["plane"] },
+      { g:"g2", t:"18:00", h:"第二組出發去機場", q:"김해국제공항", must:true, tags:["taxi","metro"] },
+      { g:"g2", t:"20:50", h:"釜山起飛，回台灣", tags:["plane"] }
+    ]}
+];
+
+const TODOS = [
+  ["確認西面濟州間預約","11/7 22:00・4 人"],
+  ["煙火節領票與入座時間","15:00 領票、17:00 前入座"],
+  ["決定 11/8 走 A／B／C 哪個方案",""],
+    ["約好 11/6 晚上會合方式","西面住宿或宵夜店"],
+  ["確認天空膠囊列車搭乘時段","11/9 13:00–13:30，尾浦出發"],
+  ["確認 Skyline Luge 營業時間與票券","11/9 10:00 開門"],
+  ["確認廣安住宿 check-in 時間","11/8 15:00"],
+  ["準備 T-money 卡",""],
+  ["換韓幣",""],
+  ["網卡／eSIM",""],
+  ["確認外送怎麼點","11/6 宵夜：Puradak 炸雞"],
+  ["列好伴手禮清單","11/9 青沙浦採買"]
+];
+
+const STAYS = [
+  { area:"西面", name:"住宿名稱待填", dates:"11/5 – 11/8", nights:["11/5（第一組）","11/6","11/7"], color:"#F2A497",
+    note:"第一組 11/5 約 22:30 入住，第二組 11/6 22:00 前入住；11/8 11:00 退房" },
+  { area:"廣安", name:"住宿名稱待填", dates:"11/8 – 11/10", nights:["11/8","11/9"], color:"#A8D3E6",
+    note:"11/8 15:00 可 check-in；11/10 退房，第一組 12:00 前出發去機場" }
+];
+
+/* ====== 小插圖 ====== */
+const S = 'stroke="#3E3A39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
+const ICONS = {
+  plane:`<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="25" fill="#F2A497" ${S}/><path d="M12 31l30-12c3-1 5 2 2 4L18 36z" fill="#fff" ${S}/><path d="M24 27l-5-8 4-1 9 6M24 33l2 7 3-1 2-7" fill="#fff" ${S}/></svg>`,
+  fire:`<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="25" fill="#F6D27A" ${S}/><circle cx="28" cy="26" r="5" fill="#F2A497" ${S}/><path d="M28 14v-4M28 38v4M16 26h-4M40 26h4M19 17l-3-3M37 17l3-3M19 35l-3 3M37 35l3 3" fill="none" ${S}/></svg>`,
+  fish:`<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="25" fill="#A8D3E6" ${S}/><path d="M12 28c6-9 18-10 26 0-8 10-20 9-26 0z" fill="#F2A497" ${S}/><path d="M38 28l7-6v12z" fill="#F2A497" ${S}/><circle cx="20" cy="26" r="1.8" fill="#3E3A39"/></svg>`,
+  capsule:`<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="25" fill="#B9DAA5" ${S}/><path d="M8 38h40" fill="none" ${S}/><rect x="11" y="20" width="16" height="16" rx="6" fill="#F6D27A" ${S}/><rect x="29" y="20" width="16" height="16" rx="6" fill="#F2A497" ${S}/><rect x="14" y="23" width="10" height="6" rx="2" fill="#fff" stroke="#3E3A39" stroke-width="2"/><rect x="32" y="23" width="10" height="6" rx="2" fill="#fff" stroke="#3E3A39" stroke-width="2"/></svg>`,
+  bag:`<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="25" fill="#F2A497" ${S}/><rect x="16" y="20" width="24" height="20" rx="5" fill="#fff" ${S}/><path d="M23 20v-4h10v4M22 26v8M34 26v8" fill="none" ${S}/></svg>`,
+  house:(c)=>`<svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true"><path d="M8 26L27 10l19 16" fill="none" ${S}/><path d="M12 24v20h30V24L27 12z" fill="${c}" ${S}/><rect x="22" y="31" width="10" height="13" rx="2" fill="#fff" ${S}/></svg>`,
+  tinyPlane:`<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="#FFFCF6" ${S}/><path d="M7 16l15-6c2-.6 3 1 1 2L10 19z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/></svg>`,
+  tick:`<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="#3E3A39" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+};
+
+/* ====== 渲染 ====== */
+const $ = (s)=>document.querySelector(s);
+const esc = (s)=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function renderFlights(){
+  const gs = curGroup==="all" ? ["g1","g2"] : [curGroup];
+  $("#flights").innerHTML = gs.map(g=>`
+    <div class="fgroup"><h3><span class="gbadge ${g}">${GROUPS[g].name}</span></h3>
+    <div class="flights">${FLIGHTS.filter(f=>f.g===g).map(f=>`
+    <article class="ticket box ${f.cls}">
+      <div class="head"><span class="chip kind">${f.kind}</span><span>${f.date}</span><span class="chip">${esc(f.no)}</span></div>
+      <div class="route">
+        <div class="pt"><div class="t">${f.from.t}</div><div class="c">${f.from.c}</div></div>
+        <div class="mid">${ICONS.tinyPlane}</div>
+        <div class="pt"><div class="t">${f.to.t}</div><div class="c">${f.to.c}</div></div>
+      </div>
+      <div class="foot">${esc(f.foot)}</div>
+    </article>`).join("")}</div></div>`).join("");
+}
+
+const PIN = `<svg width="13" height="15" viewBox="0 0 13 15" aria-hidden="true"><path d="M6.5 13.5S1.5 8.6 1.5 5.6a5 5 0 0 1 10 0c0 3-5 7.9-5 7.9z" fill="#F2A497" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><circle cx="6.5" cy="5.6" r="1.6" fill="#fff" stroke="#3E3A39" stroke-width="1.5"/></svg>`;
+let curDay = 1, curPlan = "A", curGroup = "all";
+const inGroup = (s)=> !s.g || curGroup==="all" || s.g===curGroup;
+
+function stopHTML(s){
+  const opts = s.opts ? `<div class="opts">${s.opts.map(([o,st,q])=> q
+      ? `<a class="opt map ${st||""}" href="${NAVER(q)}" target="_blank" rel="noopener" aria-label="${esc(o)}（在 Naver 地圖開啟）">${PIN}${esc(o)}</a>`
+      : `<span class="opt ${st||""}">${esc(o)}</span>`).join("")}</div>` : "";
+  const tags = s.tags ? `<div class="tags">${s.tags.map(k=>`<span class="tag ${k}">${TAGS[k]}</span>`).join("")}</div>` : "";
+  const map = s.q ? `<a class="maplink" href="${NAVER(s.q)}" target="_blank" rel="noopener">${PIN}Naver 地圖</a>` : "";
+  return `<li class="stop${s.must?" must":""}"><div class="card box">
+    <div class="top"><span class="time">${esc(s.t)}</span>${s.g?`<span class="gbadge ${s.g}">${GROUPS[s.g].name}</span>`:""}${s.must?'<span class="must-stamp">必去</span>':""}
+    <h4>${esc(s.h)}</h4></div>
+    ${s.p?`<p>${esc(s.p)}</p>`:""}${opts}${tags}${map}</div></li>`;
+}
+
+function renderTabs(){
+  $("#tabs").innerHTML = DAYS.map((d,i)=>`
+    <button class="tab" role="tab" id="tab${i}" aria-controls="daypanel" aria-selected="${i===curDay}" tabindex="${i===curDay?0:-1}" data-i="${i}">
+      <b>${d.d}</b><small>週${d.w}${d.only?"・"+GROUPS[d.only].name:""}</small>
+    </button>`).join("");
+}
+
+function renderDay(animate){
+  const d = DAYS[curDay];
+  let stops = d.stops, plans = "";
+  if (d.plans){
+    stops = d.plans[curPlan].stops;
+    plans = `<div class="plans" role="group" aria-label="選擇方案">${Object.keys(d.plans).map(k=>
+      `<button class="plan" data-plan="${k}" aria-pressed="${k===curPlan}">方案 ${k}</button>`).join("")}
+      <p class="plan-note">${esc(d.plans[curPlan].note)}</p></div>`;
+  }
+  stops = stops.filter(inGroup);
+  const panel = $("#daypanel");
+  panel.setAttribute("aria-labelledby","tab"+curDay);
+  panel.innerHTML = `
+    <div class="dayhead box">${ICONS[d.icon]}<div><h3>${esc(d.title)}</h3><p>${d.d}（${d.w}）・${esc(d.area)}</p></div></div>
+    ${plans}
+    ${stops.length ? `<ol class="timeline">${stops.map(stopHTML).join("")}</ol>`
+      : `<div class="empty box">${GROUPS[curGroup].name}這天還沒出發，${GROUPS[curGroup].startNote}</div>`}`;
+  if (animate){
+    panel.classList.remove("boing"); void panel.offsetWidth; panel.classList.add("boing");
+    panel.querySelectorAll(".stop").forEach((el,i)=>el.style.animationDelay=(0.05*i+0.08)+"s");
+  }
+}
+
+$("#tabs").addEventListener("click",e=>{
+  const b = e.target.closest(".tab"); if(!b) return;
+  selectDay(+b.dataset.i, true);
+});
+$("#tabs").addEventListener("keydown",e=>{
+  if(!["ArrowRight","ArrowLeft"].includes(e.key)) return;
+  e.preventDefault();
+  const n = (curDay + (e.key==="ArrowRight"?1:-1) + DAYS.length) % DAYS.length;
+  selectDay(n, true); $("#tab"+n).focus();
+});
+$("#daypanel").addEventListener("click",e=>{
+  const b = e.target.closest(".plan"); if(!b) return;
+  curPlan = b.dataset.plan; renderDay(true);
+});
+function selectDay(i, animate){
+  if (i===curDay && animate) return;
+  curDay = i; renderTabs(); renderDay(animate);
+  $("#tab"+i).scrollIntoView({block:"nearest",inline:"center",behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+}
+
+/* 旅行期間自動跳到當天 */
+(function(){
+  const now = new Date();
+  const fmt = new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul",month:"numeric",day:"numeric"}).formatToParts(now);
+  const md = fmt.find(p=>p.type==="month").value + "/" + fmt.find(p=>p.type==="day").value;
+  const idx = DAYS.findIndex(d=>d.d===md);
+  if (idx>=0) curDay = idx;
+})();
+renderTabs(); renderDay(false);
+
+/* 待辦（勾選狀態保留在這次開啟的頁面中） */
+const done = new Set();
+$("#todolist").innerHTML = TODOS.map(([t,s],i)=>`
+  <li><label><input type="checkbox" data-i="${i}"><span class="check">${ICONS.tick}</span>
+  <span class="txt">${esc(t)}${s?`<small>${esc(s)}</small>`:""}</span></label></li>`).join("");
+function updateProg(){
+  $("#prog").textContent = `${done.size} / ${TODOS.length}`;
+  $("#bar").style.width = (done.size/TODOS.length*100)+"%";
+}
+$("#todolist").addEventListener("change",e=>{
+  const i = +e.target.dataset.i; e.target.checked ? done.add(i) : done.delete(i); updateProg();
+});
+updateProg();
+
+/* 住宿 */
+$("#stays").innerHTML = STAYS.map(s=>`
+  <article class="stay box">${ICONS.house(s.color)}
+    <div><h3>${esc(s.area)}</h3><p>${esc(s.name)}・${s.dates}</p>
+    <div class="nights">${s.nights.map(n=>`<span class="chip">${n} 晚</span>`).join("")}</div>
+    <p>${esc(s.note)}</p></div>
+  </article>`).join("");
+
+/* 倒數 */
+function tick(){
+  const now = Date.now();
+  const g = curGroup==="all" ? null : GROUPS[curGroup];
+  const start = Date.parse(g ? g.start : GROUPS.g1.start), end = Date.parse(g ? g.end : GROUPS.g2.end);
+  const who = g ? g.name : "第一組";
+  let diff = Math.max(0, start - now);
+  const d = Math.floor(diff/864e5), h = Math.floor(diff%864e5/36e5), m = Math.floor(diff%36e5/6e4);
+  $("#cd-d").textContent = d; $("#cd-h").textContent = h; $("#cd-m").textContent = m;
+  $("#cd-msg").textContent = now < start ? `${who}距離出發還有（${g ? g.startNote : GROUPS.g1.startNote}）`
+    : now <= end ? "旅行進行中，好好玩！" : "旅行結束了，下次見，釜山";
+}
+tick(); setInterval(tick, 30000);
+
+/* 組別切換 */
+function renderGroupSel(){
+  const html = `<span class="gsel-lab">看誰的行程</span>${[["all","全部"],["g1","第一組"],["g2","第二組"]].map(([k,n])=>
+    `<button class="gbtn" data-g="${k}" aria-pressed="${k===curGroup}">${n}</button>`).join("")}`;
+  document.querySelectorAll(".gsel").forEach(el=>el.innerHTML = html);
+}
+document.addEventListener("click",e=>{
+  const b = e.target.closest(".gbtn"); if(!b) return;
+  curGroup = b.dataset.g; renderGroupSel(); renderFlights(); renderDay(true); tick();
+});
+renderGroupSel(); renderFlights();
+
+/* 選單高亮 */
+const links = [...document.querySelectorAll(".nav a[data-sec]")];
+const io = new IntersectionObserver(es=>{
+  es.forEach(en=>{ if(en.isIntersecting){
+    links.forEach(a=>a.classList.toggle("on", a.dataset.sec===en.target.id));
+  }});
+},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("main section").forEach(s=>io.observe(s));
+links[0].classList.add("on");
+</script>
+</body>
+</html>
