@@ -356,7 +356,7 @@ footer{text-align:center;font-size:13px;color:var(--ink-soft);padding:10px 0 30p
   </svg>
   <div class="hero-text">
     <h1>釜山小旅行</h1>
-    <p class="sub">2026 年 11 月 5 日（四）— 11 月 10 日（二）<br>第一組 11/5–11/10・第二組 11/6–11/10</p>
+    <p class="sub">2026 年 11 月 5 日（四）— 11 月 10 日（二）<br>莉莉組 11/5–11/10・小晴組 11/6–11/10</p>
     <div class="gsel" role="group" aria-label="選擇組別"></div>
     <div class="count" aria-live="polite">
       <div class="cell"><b id="cd-d">0</b><small>天</small></div>
@@ -411,10 +411,10 @@ footer{text-align:center;font-size:13px;color:var(--ink-soft);padding:10px 0 30p
 
 <script>
 /* ====== 行程資料：要修改內容改這裡就好 ====== */
-/* 兩組人：g1 第一組、g2 第二組 */
+/* 兩組人：g1 莉莉組、g2 小晴組 */
 const GROUPS = {
-  g1:{ name:"第一組", start:"2026-11-05T17:30:00+08:00", end:"2026-11-10T16:30:00+08:00", startNote:"11/5 17:30 桃園起飛" },
-  g2:{ name:"第二組", start:"2026-11-06T16:50:00+08:00", end:"2026-11-10T22:30:00+08:00", startNote:"11/6 16:50 桃園起飛" }
+  g1:{ name:"莉莉組", start:"2026-11-05T17:30:00+08:00", end:"2026-11-10T16:30:00+08:00", startNote:"11/5 17:30 桃園起飛" },
+  g2:{ name:"小晴組", start:"2026-11-06T16:50:00+08:00", end:"2026-11-10T22:30:00+08:00", startNote:"11/6 16:50 桃園起飛" }
 };
 
 const FLIGHTS = [
@@ -439,7 +439,7 @@ const TAGS = { plane:"✈ 飛機", metro:"🚇 地鐵", train:"🚃 列車", tax
 const NAVER = (q)=> /^https?:\/\//.test(q) ? q : "https://map.naver.com/p/search/" + encodeURIComponent(q);
 
 const DAYS = [
-  { d:"11/5", w:"四", title:"第一組先抵達", area:"桃園 → 西面", icon:"plane", only:"g1",
+  { d:"11/5", w:"四", title:"莉莉組先抵達", area:"桃園 → 西面", icon:"plane", only:"g1",
     stops:[
       { g:"g1", t:"15:30", h:"桃園機場報到", tags:["plane"] },
       { g:"g1", t:"17:30", h:"KE2086 桃園起飛", tags:["plane"] },
@@ -447,7 +447,7 @@ const DAYS = [
       { g:"g1", t:"21:30", h:"出機場，前往西面", tags:["taxi","metro"] },
       { g:"g1", t:"22:30", h:"入住西面住宿，宵夜", p:"可以先吃 11/6 宵夜清單裡的其他間", tags:["walk"] }
     ]},
-  { d:"11/6", w:"五", title:"第二組抵達・會合", area:"西面", icon:"plane",
+  { d:"11/6", w:"五", title:"小晴組抵達・會合", area:"西面", icon:"plane",
     stops:[
       { g:"g1", t:"09:30", h:"早餐：Egg Drop", q:"에그드랍 서면", tags:["walk"] },
       { g:"g1", t:"10:30", h:"樂天百貨釜山本店", q:"롯데백화점 부산본점", p:"開門就進去逛，人比較少", must:true, tags:["walk"] },
@@ -522,12 +522,12 @@ const DAYS = [
   { d:"11/10", w:"二", title:"自由日・回家", area:"西面・金海機場", icon:"bag",
     stops:[
       { t:"上午", h:"退房，去前幾天想逛沒逛完的地方", tags:["metro","walk"] },
-      { g:"g1", t:"12:00", h:"第一組出發去機場", q:"김해국제공항", p:"12:50 前到機場報到", must:true, tags:["taxi","metro"] },
+      { g:"g1", t:"12:00", h:"莉莉組出發去機場", q:"김해국제공항", p:"12:50 前到機場報到", must:true, tags:["taxi","metro"] },
       { g:"g2", t:"午餐", h:"午餐", opts:[["炸豬排"],["Working Holiday","","워킹홀리데이 부산"]], tags:["walk"] },
       { g:"g1", t:"14:50", h:"KE2085 釜山起飛", tags:["plane"] },
       { g:"g2", t:"下午", h:"白淺灘咖啡廳（西面）", tags:["walk"] },
       { g:"g1", t:"16:30", h:"抵達桃園", tags:["plane"] },
-      { g:"g2", t:"18:00", h:"第二組出發去機場", q:"김해국제공항", must:true, tags:["taxi","metro"] },
+      { g:"g2", t:"18:00", h:"小晴組出發去機場", q:"김해국제공항", must:true, tags:["taxi","metro"] },
       { g:"g2", t:"20:50", h:"IT607 釜山起飛", tags:["plane"] },
       { g:"g2", t:"22:30", h:"抵達桃園", tags:["plane"] }
     ]}
@@ -561,10 +561,10 @@ const NOTES = [
 ];
 
 const STAYS = [
-  { area:"西面", name:"Seomyeon Denbasta 中央酒店", addr:"釜山廣域市 釜山鎮區 釜田洞 524-17", q:"https://naver.me/FaeGpq0t", dates:"11/5 – 11/8", nights:["11/5（第一組）","11/6","11/7"], color:"#F2A497",
-    note:"第一組 11/5 約 22:30 入住，第二組 11/6 22:00 前入住；11/8 11:00 退房" },
+  { area:"西面", name:"Seomyeon Denbasta 中央酒店", addr:"釜山廣域市 釜山鎮區 釜田洞 524-17", q:"https://naver.me/FaeGpq0t", dates:"11/5 – 11/8", nights:["11/5（莉莉組）","11/6","11/7"], color:"#F2A497",
+    note:"莉莉組 11/5 約 22:30 入住，小晴組 11/6 22:00 前入住；11/8 11:00 退房" },
   { area:"廣安", name:"住宿名稱待填", dates:"11/8 – 11/10", nights:["11/8","11/9"], color:"#A8D3E6",
-    note:"11/8 15:00 可 check-in；11/10 退房，第一組 12:00 前出發去機場" }
+    note:"11/8 15:00 可 check-in；11/10 退房，莉莉組 12:00 前出發去機場" }
 ];
 
 /* ====== 小插圖 ====== */
@@ -720,7 +720,7 @@ function tick(){
   const now = Date.now();
   const g = curGroup==="all" ? null : GROUPS[curGroup];
   const start = Date.parse(g ? g.start : GROUPS.g1.start), end = Date.parse(g ? g.end : GROUPS.g2.end);
-  const who = g ? g.name : "第一組";
+  const who = g ? g.name : "莉莉組";
   let diff = Math.max(0, start - now);
   const d = Math.floor(diff/864e5), h = Math.floor(diff%864e5/36e5), m = Math.floor(diff%36e5/6e4);
   $("#cd-d").textContent = d; $("#cd-h").textContent = h; $("#cd-m").textContent = m;
@@ -731,7 +731,7 @@ tick(); setInterval(tick, 30000);
 
 /* 組別切換 */
 function renderGroupSel(){
-  const html = `<span class="gsel-lab">看誰的行程</span>${[["all","全部"],["g1","第一組"],["g2","第二組"]].map(([k,n])=>
+  const html = `<span class="gsel-lab">看誰的行程</span>${[["all","全部"],["g1","莉莉組"],["g2","小晴組"]].map(([k,n])=>
     `<button class="gbtn" data-g="${k}" aria-pressed="${k===curGroup}">${n}</button>`).join("")}`;
   document.querySelectorAll(".gsel").forEach(el=>el.innerHTML = html);
 }
